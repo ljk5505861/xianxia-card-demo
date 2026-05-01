@@ -82,43 +82,57 @@ export class BattleScene extends Phaser.Scene {
 
   private drawBattleLayout() {
     this.add.image(450, 300, this.pickTexture('battle-bg')).setDisplaySize(900, 600).setAlpha(0.98);
-    this.add.rectangle(450, 300, 900, 600, 0x080512, 0.26);
+    this.add.rectangle(450, 300, 900, 600, 0x05060d, 0.52);
 
     this.add.text(60, 30, '荒庙夜巡', { fontSize: '32px', color: '#f7d794' });
-    this.add.text(730, 568, 'Images资源版 v1', { fontSize: '18px', color: '#ddd6f4' });
+    this.add.text(770, 575, 'Images资源版 v1', { fontSize: '12px', color: '#d8d2e5' }).setAlpha(0.55);
 
-    this.add.text(130, 110, '巡夜人', { fontSize: '26px', color: '#9fe7ff' });
-    this.add.text(650, 110, '纸人妖', { fontSize: '26px', color: '#ffb2b2' });
+    this.add.rectangle(230, 255, 260, 300, 0x111620, 0.72).setStrokeStyle(2, 0x3f546b, 0.8);
+    this.add.rectangle(670, 255, 260, 300, 0x1a1017, 0.72).setStrokeStyle(2, 0x6b4255, 0.8);
 
-    this.add.image(205, 250, this.pickTexture('night-patrol')).setDisplaySize(150, 185);
-    this.add.image(700, 245, this.pickTexture('paper-demon')).setDisplaySize(150, 180);
+    this.add.text(170, 115, '巡夜人', { fontSize: '28px', color: '#9fe7ff' });
+    this.add.text(610, 115, '纸人妖', { fontSize: '28px', color: '#ffb2b2' });
 
-    this.playerStatusText = this.add.text(80, 350, '', { fontSize: '22px', color: '#ffffff' });
-    this.enemyStatusText = this.add.text(590, 350, '', { fontSize: '22px', color: '#ffffff' });
-    this.enemyIntentText = this.add.text(575, 385, '', {
-      fontSize: '19px',
+    this.add.image(230, 245, this.pickTexture('night-patrol')).setDisplaySize(170, 210);
+    this.add.image(670, 245, this.pickTexture('paper-demon')).setDisplaySize(170, 210);
+
+    this.playerStatusText = this.add.text(132, 348, '', { fontSize: '20px', color: '#f2f6ff', lineSpacing: 8 });
+    this.enemyStatusText = this.add.text(574, 348, '', { fontSize: '20px', color: '#fff3f3', lineSpacing: 8 });
+    this.enemyIntentText = this.add.text(574, 410, '', {
+      fontSize: '18px',
       color: '#ffd166',
+      lineSpacing: 6,
     });
-    this.manaText = this.add.text(80, 385, '', { fontSize: '19px', color: '#8bf5ce' });
+    this.manaText = this.add.text(132, 410, '', { fontSize: '18px', color: '#8bf5ce' });
 
-    this.messageText = this.add.text(330, 420, '', { fontSize: '30px', color: '#ffeaa7' });
-    this.battleLogText = this.add.text(540, 20, '', { fontSize: '16px', color: '#e4ddff', lineSpacing: 6 });
+    this.messageText = this.add.text(340, 448, '', { fontSize: '28px', color: '#ffeaa7' });
+    this.add.rectangle(450, 84, 380, 112, 0x0d1220, 0.68).setStrokeStyle(1, 0x7384aa, 0.75);
+    this.battleLogText = this.add.text(292, 42, '', { fontSize: '16px', color: '#e4ddff', lineSpacing: 4 });
   }
 
   private renderCards() {
     this.cards.forEach((card, index) => {
-      const x = 170 + index * 240;
-      const y = 518;
+      const x = 205 + index * 180;
+      const y = 535;
 
       const cardRect = this.add
-        .rectangle(x, y, 205, 150, 0xefe1c3)
+        .rectangle(x, y, 160, 170, 0xd8ccaf)
         .setStrokeStyle(3, 0x5f4725)
         .setInteractive({ useHandCursor: true });
 
-      this.add.image(x, y - 24, this.pickTexture(card.art)).setDisplaySize(175, 86);
-      this.add.rectangle(x, y + 36, 188, 48, 0x251733, 0.9);
-      this.add.text(x - 90, y + 16, `${card.name}  费:${card.cost}`, { fontSize: '20px', color: '#f5ddb8' });
-      this.add.text(x - 90, y + 42, card.description, { fontSize: '16px', color: '#efe9ff' });
+      this.add.image(x, y - 36, this.pickTexture(card.art)).setDisplaySize(136, 70);
+      this.add.rectangle(x, y + 44, 146, 74, 0x251733, 0.94);
+      this.add.circle(x - 58, y - 66, 14, 0x3b2c14, 0.95).setStrokeStyle(2, 0xf8d991);
+      this.add.text(x - 63, y - 75, `${card.cost}`, { fontSize: '20px', color: '#ffe9ab' });
+      this.add.text(x - 58, y + 16, card.name, { fontSize: '18px', color: '#f5ddb8' });
+      this.add.text(x - 58, y + 42, card.description, { fontSize: '14px', color: '#efe9ff', wordWrap: { width: 120 } });
+
+      cardRect.on('pointerover', () => {
+        cardRect.y = y - 8;
+      });
+      cardRect.on('pointerout', () => {
+        cardRect.y = y;
+      });
 
       cardRect.on('pointerdown', () => this.playCard(card));
     });
@@ -126,11 +140,11 @@ export class BattleScene extends Phaser.Scene {
 
   private renderEndTurnButton() {
     const button = this.add
-      .rectangle(790, 458, 180, 52, 0x4c3b74)
+      .rectangle(790, 532, 180, 52, 0x4c3b74)
       .setStrokeStyle(2, 0xd6c0ff)
       .setInteractive({ useHandCursor: true });
 
-    this.add.text(718, 442, '结束回合', { fontSize: '24px', color: '#ffffff' });
+    this.add.text(718, 515, '结束回合', { fontSize: '24px', color: '#ffffff' });
     button.on('pointerdown', () => this.endTurn());
   }
 
@@ -187,15 +201,15 @@ export class BattleScene extends Phaser.Scene {
 
   private pushBattleLog(line: string) {
     this.battleLog.unshift(line);
-    this.battleLog = this.battleLog.slice(0, 6);
+    this.battleLog = this.battleLog.slice(0, 4);
     this.battleLogText.setText(`战斗日志\n${this.battleLog.join('\n')}`);
   }
 
   private updateStatus() {
-    this.playerStatusText.setText(`玩家血量: ${this.playerHp}  护甲: ${this.playerArmor}`);
-    this.manaText.setText(`法力: ${this.playerMana}/${this.playerMaxMana}`);
-    this.enemyStatusText.setText(`敌人血量: ${this.enemyHp}`);
-    this.enemyIntentText.setText(`敌人意图：下回合造成 ${this.enemyDamage} 点伤害`);
+    this.playerStatusText.setText(`血量：${this.playerHp}\n护甲：${this.playerArmor}`);
+    this.manaText.setText(`法力：${this.playerMana}/${this.playerMaxMana}`);
+    this.enemyStatusText.setText(`血量：${this.enemyHp}`);
+    this.enemyIntentText.setText(`意图：下回合造成 ${this.enemyDamage} 点伤害`);
   }
 
   private isCombatOver() {
