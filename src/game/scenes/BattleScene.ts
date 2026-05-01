@@ -82,12 +82,10 @@ export class BattleScene extends Phaser.Scene {
     this.add.image(960, 540, this.pickTexture('battle-bg')).setDisplaySize(1920, 1080).setAlpha(0.98);
     this.add.rectangle(960, 540, 1920, 1080, 0x05060d, 0.45);
     this.add.text(70, 40, '荒庙夜巡', { fontSize: '56px', color: '#f7d794' });
-    this.add.text(1740, 1048, 'Images资源版 v2', { fontSize: '22px', color: '#d8d2e5' }).setAlpha(0.7);
+    this.add.text(1726, 1048, 'Images资源版 v2.1', { fontSize: '22px', color: '#d8d2e5' }).setAlpha(0.7);
 
-    this.add.rectangle(420, 420, 520, 500, 0x111620, 0.62).setStrokeStyle(3, 0x3f546b, 0.85);
-    this.add.rectangle(1500, 420, 520, 500, 0x1a1017, 0.62).setStrokeStyle(3, 0x6b4255, 0.85);
-    this.playerSprite = this.add.image(420, 430, this.pickTexture('night-patrol')).setDisplaySize(320, 390);
-    this.enemySprite = this.add.image(1500, 430, this.pickTexture('paper-demon')).setDisplaySize(320, 390);
+    this.playerSprite = this.createPortrait(420, 430, 'night-patrol', 0x3f546b, 0x141a27, 0x182234);
+    this.enemySprite = this.createPortrait(1500, 430, 'paper-demon', 0x6b4255, 0x241620, 0x311e2b);
 
     this.playerStatusText = this.add.text(220, 645, '', { fontSize: '34px', color: '#f2f6ff', lineSpacing: 12 });
     this.manaText = this.add.text(220, 782, '', { fontSize: '32px', color: '#8bf5ce' });
@@ -124,13 +122,17 @@ export class BattleScene extends Phaser.Scene {
 
   private createCard(card: CardInstance, x: number, y: number) {
     const bg = this.add.rectangle(0, 0, 220, 280, 0xdccdb2).setStrokeStyle(4, 0x5f4725);
-    const art = this.add.image(0, -60, this.pickTexture(card.art)).setDisplaySize(188, 110);
+    const artFrame = this.add.rectangle(0, -62, 196, 118, 0x111728, 0.92).setStrokeStyle(2, 0x56658e, 0.8);
+    const art = this.add.image(0, -62, this.pickTexture(card.art)).setDisplaySize(188, 110).setTint(0xc8d1ef);
+    const artSoftShade = this.add.rectangle(0, -62, 188, 110, 0x06070d, 0.34);
+    const artDarkEdge = this.add.rectangle(0, -62, 188, 110, 0x090c16, 0.12).setStrokeStyle(1, 0x0f1624, 0.9);
+    const artTopBlend = this.add.rectangle(0, -85, 188, 46, 0x1c2337, 0.32);
     const bottom = this.add.rectangle(0, 70, 196, 120, 0x251733, 0.95);
     const costBubble = this.add.circle(-84, -114, 23, 0x3b2c14, 0.95).setStrokeStyle(3, 0xf8d991);
     const cost = this.add.text(-92, -128, `${card.cost}`, { fontSize: '28px', color: '#ffe9ab' });
     const name = this.add.text(-88, 20, card.name, { fontSize: '29px', color: '#f5ddb8' });
     const desc = this.add.text(-88, 58, card.description, { fontSize: '22px', color: '#efe9ff', wordWrap: { width: 170 } });
-    const c = this.add.container(x, y, [bg, art, bottom, costBubble, cost, name, desc]);
+    const c = this.add.container(x, y, [bg, artFrame, art, artSoftShade, artDarkEdge, artTopBlend, bottom, costBubble, cost, name, desc]);
     bg.setInteractive({ draggable: true, useHandCursor: true });
     this.input.setDraggable(bg);
     bg.on('pointerover', () => this.tweens.add({ targets: c, y: y - 20, duration: 130 }));
@@ -226,4 +228,42 @@ export class BattleScene extends Phaser.Scene {
   private pushBattleLog(line:string) { this.battleLog.unshift(line); this.battleLog = this.battleLog.slice(0,5); this.battleLogText.setText(`战斗日志\n${this.battleLog.join('\n')}`); }
   private isCombatOver() { return this.enemyHp === 0 || this.playerHp === 0; }
   private pickTexture(baseKey: string) { return this.textures.exists(`${baseKey}-png`) ? `${baseKey}-png` : `${baseKey}-svg`; }
+
+  private createPortrait(
+    x: number,
+    y: number,
+    textureKey: string,
+    strokeColor: number,
+    frameColor: number,
+    glowColor: number,
+  ) {
+    const frame = this.add.rectangle(x, y - 10, 520, 500, frameColor, 0.7).setStrokeStyle(3, strokeColor, 0.88);
+    const portraitMat = this.add.rectangle(x, y + 5, 362, 422, 0x0a0d16, 0.95).setStrokeStyle(2, 0x202d42, 0.85);
+    const portrait = this.add.image(x, y + 5, this.pickTexture(textureKey)).setDisplaySize(320, 390).setTint(0xc2cae0);
+    const portraitShade = this.add.rectangle(x, y + 5, 320, 390, 0x07080f, 0.36);
+    const topShade = this.add.rectangle(x, y - 96, 320, 140, 0x1a2235, 0.32);
+    const bottomShade = this.add.rectangle(x, y + 126, 320, 150, 0x06070e, 0.5);
+    const edgeShade = this.add.rectangle(x, y + 5, 320, 390, 0x0a0d14, 0.1).setStrokeStyle(3, 0x101826, 0.95);
+    const rimGlow = this.add.rectangle(x, y + 5, 338, 408, glowColor, 0.08).setStrokeStyle(2, strokeColor, 0.45);
+
+    const maskShape = this.make.graphics();
+    maskShape.fillStyle(0xffffff, 1);
+    maskShape.fillRoundedRect(x - 160, y - 190, 320, 390, 26);
+    const mask = maskShape.createGeometryMask();
+    portrait.setMask(mask);
+    portraitShade.setMask(mask);
+    topShade.setMask(mask);
+    bottomShade.setMask(mask);
+    edgeShade.setMask(mask);
+
+    frame.setDepth(1);
+    portraitMat.setDepth(2);
+    portrait.setDepth(3);
+    portraitShade.setDepth(4);
+    topShade.setDepth(5);
+    bottomShade.setDepth(6);
+    edgeShade.setDepth(7);
+    rimGlow.setDepth(8);
+    return portrait;
+  }
 }
