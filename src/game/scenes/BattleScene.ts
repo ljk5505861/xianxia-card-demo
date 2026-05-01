@@ -1,10 +1,16 @@
 import Phaser from 'phaser';
-import battleBg from '../../assets/battle-temple-courtyard.svg';
-import paperDemon from '../../assets/paper-demon.svg';
-import nightPatrol from '../../assets/night-patrol.svg';
-import slash from '../../assets/slash.svg';
-import guardTalisman from '../../assets/guard-talisman.svg';
-import fireTalisman from '../../assets/fire-talisman.svg';
+import battleBgPng from '../../assets/battle-temple-courtyard.png.png';
+import battleBgSvg from '../../assets/battle-temple-courtyard.svg';
+import paperDemonPng from '../../assets/paper-demon.png.png';
+import paperDemonSvg from '../../assets/paper-demon.svg';
+import nightPatrolPng from '../../assets/night-patrol.png.png';
+import nightPatrolSvg from '../../assets/night-patrol.svg';
+import slashPng from '../../assets/slash.png.png';
+import slashSvg from '../../assets/slash.svg';
+import guardTalismanPng from '../../assets/guard-talisman.png.png';
+import guardTalismanSvg from '../../assets/guard-talisman.svg';
+import fireTalismanPng from '../../assets/fire-talisman.png.png';
+import fireTalismanSvg from '../../assets/fire-talisman.svg';
 
 type Card = {
   name: string;
@@ -42,12 +48,18 @@ export class BattleScene extends Phaser.Scene {
   }
 
   preload() {
-    this.load.image('battle-bg', battleBg);
-    this.load.image('paper-demon', paperDemon);
-    this.load.image('night-patrol', nightPatrol);
-    this.load.image('card-slash', slash);
-    this.load.image('card-guard-talisman', guardTalisman);
-    this.load.image('card-fire-talisman', fireTalisman);
+    this.load.image('battle-bg-png', battleBgPng);
+    this.load.image('battle-bg-svg', battleBgSvg);
+    this.load.image('paper-demon-png', paperDemonPng);
+    this.load.image('paper-demon-svg', paperDemonSvg);
+    this.load.image('night-patrol-png', nightPatrolPng);
+    this.load.image('night-patrol-svg', nightPatrolSvg);
+    this.load.image('card-slash-png', slashPng);
+    this.load.image('card-slash-svg', slashSvg);
+    this.load.image('card-guard-talisman-png', guardTalismanPng);
+    this.load.image('card-guard-talisman-svg', guardTalismanSvg);
+    this.load.image('card-fire-talisman-png', fireTalismanPng);
+    this.load.image('card-fire-talisman-svg', fireTalismanSvg);
   }
 
   create() {
@@ -69,17 +81,17 @@ export class BattleScene extends Phaser.Scene {
   }
 
   private drawBattleLayout() {
-    this.add.image(450, 300, 'battle-bg').setDisplaySize(900, 600).setAlpha(0.98);
+    this.add.image(450, 300, this.pickTexture('battle-bg')).setDisplaySize(900, 600).setAlpha(0.98);
     this.add.rectangle(450, 300, 900, 600, 0x080512, 0.26);
 
     this.add.text(60, 30, '荒庙夜巡', { fontSize: '32px', color: '#f7d794' });
-    this.add.text(748, 568, 'SVG资源版 v1', { fontSize: '18px', color: '#ddd6f4' });
+    this.add.text(730, 568, 'Images资源版 v1', { fontSize: '18px', color: '#ddd6f4' });
 
     this.add.text(130, 110, '巡夜人', { fontSize: '26px', color: '#9fe7ff' });
     this.add.text(650, 110, '纸人妖', { fontSize: '26px', color: '#ffb2b2' });
 
-    this.add.image(205, 250, 'night-patrol').setDisplaySize(150, 185);
-    this.add.image(700, 245, 'paper-demon').setDisplaySize(150, 180);
+    this.add.image(205, 250, this.pickTexture('night-patrol')).setDisplaySize(150, 185);
+    this.add.image(700, 245, this.pickTexture('paper-demon')).setDisplaySize(150, 180);
 
     this.playerStatusText = this.add.text(80, 350, '', { fontSize: '22px', color: '#ffffff' });
     this.enemyStatusText = this.add.text(590, 350, '', { fontSize: '22px', color: '#ffffff' });
@@ -103,7 +115,7 @@ export class BattleScene extends Phaser.Scene {
         .setStrokeStyle(3, 0x5f4725)
         .setInteractive({ useHandCursor: true });
 
-      this.add.image(x, y - 24, card.art).setDisplaySize(175, 86);
+      this.add.image(x, y - 24, this.pickTexture(card.art)).setDisplaySize(175, 86);
       this.add.rectangle(x, y + 36, 188, 48, 0x251733, 0.9);
       this.add.text(x - 90, y + 16, `${card.name}  费:${card.cost}`, { fontSize: '20px', color: '#f5ddb8' });
       this.add.text(x - 90, y + 42, card.description, { fontSize: '16px', color: '#efe9ff' });
@@ -188,5 +200,12 @@ export class BattleScene extends Phaser.Scene {
 
   private isCombatOver() {
     return this.enemyHp === 0 || this.playerHp === 0;
+  }
+
+  private pickTexture(baseKey: string) {
+    const pngKey = `${baseKey}-png`;
+    const svgKey = `${baseKey}-svg`;
+
+    return this.textures.exists(pngKey) ? pngKey : svgKey;
   }
 }
