@@ -11,10 +11,22 @@ export function PhaserGame() {
 
     gameRef.current = new Phaser.Game({
       type: Phaser.AUTO,
-      width: 900,
-      height: 600,
+      width: 1920,
+      height: 1080,
       parent: containerRef.current,
-      backgroundColor: '#1b1f2a',
+      backgroundColor: '#09070f',
+      scale: {
+        mode: Phaser.Scale.FIT,
+        autoCenter: Phaser.Scale.CENTER_BOTH,
+        width: 1920,
+        height: 1080,
+      },
+      render: {
+        antialias: true,
+        roundPixels: false,
+      },
+      // Phaser typings omit resolution in some versions; keep runtime DPI cap.
+      ...( { resolution: Math.min(window.devicePixelRatio || 1, 2) } as unknown as object ),
       scene: [BattleScene],
     });
 

@@ -1,72 +1,43 @@
-* {
-  box-sizing: border-box;
-}
-
+* { box-sizing: border-box; }
+html, body, #root { width: 100%; height: 100%; }
 body {
   margin: 0;
   font-family: 'Microsoft YaHei', sans-serif;
   background: radial-gradient(circle at top, #1b1433, #09070f 65%);
   color: #fff;
 }
-
-.app-shell {
-  min-height: 100vh;
-}
-
+.app-shell { width: 100vw; height: 100vh; overflow: hidden; }
 .title-page {
   width: 100vw;
-  min-height: 100vh;
+  height: 100vh;
   background-size: cover;
   background-position: center;
-  overflow: hidden;
 }
-
 .title-overlay {
-  min-height: 100vh;
-  text-align: left;
-  padding: 3rem 8vw;
-  background: linear-gradient(to right, rgba(9, 10, 20, 0.78), rgba(9, 8, 18, 0.34));
+  width: 100%;
+  height: 100%;
+  padding: 5vh 7vw;
+  background: linear-gradient(110deg, rgba(8, 9, 18, 0.82), rgba(8, 8, 18, 0.32));
   display: flex;
   flex-direction: column;
   justify-content: center;
-  gap: 0.8rem;
+  gap: 1rem;
   position: relative;
 }
-
-.title-page h1 {
-  margin: 0;
-  font-size: 3.2rem;
-  color: #f7d794;
-}
-
-.title-page p {
-  margin: 0 0 1.2rem;
-  color: #d8d2e7;
-  font-size: 1.2rem;
-}
-
+.title-page h1 { margin: 0; font-size: clamp(3.2rem, 7vw, 6rem); color: #f7d794; letter-spacing: 0.1em; text-shadow: 0 8px 24px rgba(0,0,0,.5); }
+.title-page p { margin: 0 0 1.8rem; color: #e1daf6; font-size: clamp(1.1rem, 2vw, 1.6rem); }
 .title-page button {
   align-self: flex-start;
   border: 1px solid #d6c0ff;
-  background: linear-gradient(180deg, #8061c2, #4d3a75);
+  background: linear-gradient(180deg, #9070d2, #4a356f);
   color: white;
-  font-size: 1.3rem;
+  font-size: clamp(1.2rem, 2vw, 1.6rem);
   font-weight: 700;
-  padding: 0.9rem 1.8rem;
-  border-radius: 0.6rem;
+  padding: 1rem 2.2rem;
+  border-radius: 0.8rem;
   cursor: pointer;
-  box-shadow: 0 8px 20px rgba(25, 13, 48, 0.5);
+  box-shadow: 0 10px 28px rgba(25, 13, 48, 0.65);
 }
-
-.build-badge {
-  position: absolute;
-  right: 12px;
-  bottom: 8px;
-  color: #d8d5e7;
-  font-size: 12px;
-  opacity: 0.6;
-}
-
-.game-container {
-  border: 1px solid #47346d;
-}
+.build-badge { position: absolute; right: 20px; bottom: 12px; color: #d8d5e7; font-size: 13px; opacity: 0.7; }
+.game-container { width: 100vw; height: 100vh; padding: 1.2vh 1.2vw; }
+.game-container canvas { width: 100% !important; height: 100% !important; border-radius: 10px; }

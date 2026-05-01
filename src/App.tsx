@@ -17,7 +17,7 @@ export default function App() {
             <h1>《夜行荒庙》</h1>
             <p>荒庙夜深，符火未熄</p>
             <button onClick={() => setScreen('battle')}>开始游戏</button>
-            <small className="build-badge">Images资源版 v1</small>
+            <small className="build-badge">Images资源版 v2</small>
           </div>
         </section>
       ) : (
