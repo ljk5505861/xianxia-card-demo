@@ -1,4 +1,5 @@
 import Phaser from 'phaser';
+import nightTempleBg from '../../assets/night-temple.svg';
 
 type Card = {
   name: string;
@@ -28,6 +29,10 @@ export class BattleScene extends Phaser.Scene {
     super('battle-scene');
   }
 
+  preload() {
+    this.load.image('night-temple-bg', nightTempleBg);
+  }
+
   create() {
     this.resetCombatState();
     this.drawBattleLayout();
@@ -44,16 +49,17 @@ export class BattleScene extends Phaser.Scene {
   }
 
   private drawBattleLayout() {
-    this.add.rectangle(450, 300, 900, 600, 0x0f0b1f);
-    this.add.rectangle(450, 280, 860, 520, 0x1a1232).setStrokeStyle(2, 0x5f4b8b);
+    this.add.image(450, 300, 'night-temple-bg').setDisplaySize(900, 600).setAlpha(0.95);
+    this.add.rectangle(450, 300, 900, 600, 0x05030b, 0.38);
+    this.add.rectangle(450, 280, 860, 520, 0x1a1232, 0.74).setStrokeStyle(2, 0x5f4b8b);
 
     this.add.text(60, 40, '荒庙夜巡', { fontSize: '30px', color: '#f7d794' });
 
     this.add.text(120, 120, '巡夜人', { fontSize: '26px', color: '#8be9fd' });
     this.add.text(660, 120, '庙中邪祟', { fontSize: '26px', color: '#ff9f9f' });
 
-    this.add.circle(700, 240, 70, 0x2d1f4d).setStrokeStyle(3, 0xbfa2db);
-    this.add.rectangle(700, 240, 90, 120, 0x161022).setStrokeStyle(2, 0x8e7cc3);
+    this.add.circle(700, 240, 70, 0x2d1f4d, 0.85).setStrokeStyle(3, 0xbfa2db);
+    this.add.rectangle(700, 240, 90, 120, 0x161022, 0.85).setStrokeStyle(2, 0x8e7cc3);
 
     this.playerStatusText = this.add.text(90, 180, '', { fontSize: '22px', color: '#ffffff' });
     this.enemyStatusText = this.add.text(610, 180, '', { fontSize: '22px', color: '#ffffff' });
