@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 720">
+  <defs>
+    <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#181226"/>
+      <stop offset="100%" stop-color="#2a1b3f"/>
+    </linearGradient>
+    <radialGradient id="moon" cx="0.8" cy="0.2" r="0.08">
+      <stop offset="0%" stop-color="#fffce8"/>
+      <stop offset="100%" stop-color="#d1cae8" stop-opacity="0.1"/>
+    </radialGradient>
+    <radialGradient id="lantern" cx="0.3" cy="0.6" r="0.14">
+      <stop offset="0%" stop-color="#f7ba72" stop-opacity="0.95"/>
+      <stop offset="100%" stop-color="#f7ba72" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  <rect width="1280" height="720" fill="url(#sky)"/>
+  <circle cx="1020" cy="140" r="95" fill="url(#moon)"/>
+  <polygon points="0,520 180,330 340,520" fill="#2a1f42"/>
+  <polygon points="250,520 470,290 690,520" fill="#211837"/>
+  <polygon points="560,520 810,300 1040,520" fill="#261c3e"/>
+  <polygon points="890,520 1120,340 1280,520" fill="#1c152f"/>
+  <rect x="0" y="520" width="1280" height="200" fill="#140f23"/>
+  <rect x="520" y="375" width="250" height="155" fill="#120d1c"/>
+  <polygon points="490,390 645,305 800,390" fill="#0e0a17"/>
+  <rect x="610" y="435" width="72" height="95" fill="#090611"/>
+  <circle cx="370" cy="430" r="110" fill="url(#lantern)"/>
+</svg>
