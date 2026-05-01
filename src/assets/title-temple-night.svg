@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900">
+  <defs>
+    <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#0a1026"/>
+      <stop offset="100%" stop-color="#1a1030"/>
+    </linearGradient>
+    <radialGradient id="moonGlow" cx="70%" cy="24%" r="24%">
+      <stop offset="0%" stop-color="#f8f5d6" stop-opacity="0.95"/>
+      <stop offset="100%" stop-color="#f8f5d6" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  <rect width="1600" height="900" fill="url(#sky)"/>
+  <circle cx="1120" cy="210" r="90" fill="#f6efc5"/>
+  <circle cx="1120" cy="210" r="220" fill="url(#moonGlow)"/>
+  <path d="M0 710 Q220 660 430 710 T900 720 T1600 700 L1600 900 L0 900 Z" fill="#130c24"/>
+  <path d="M520 700 L620 470 L670 520 L760 420 L900 700 Z" fill="#0f0a1f"/>
+  <rect x="610" y="620" width="210" height="90" fill="#201533"/>
+  <rect x="680" y="575" width="70" height="75" fill="#2b1d44"/>
+  <rect x="640" y="650" width="35" height="60" fill="#08040d"/>
+  <rect x="745" y="650" width="35" height="60" fill="#08040d"/>
+  <path d="M500 760 Q840 690 1180 760" stroke="#8fa3c2" stroke-opacity="0.35" stroke-width="44" fill="none"/>
+  <path d="M340 820 Q760 730 1300 810" stroke="#b4bfd1" stroke-opacity="0.2" stroke-width="60" fill="none"/>
+</svg>
