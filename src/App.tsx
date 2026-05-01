@@ -10,7 +10,8 @@ export default function App() {
     <main className="app-shell">
       {screen === 'title' ? (
         <section className="title-page">
-          <h1>夜行荒庙</h1>
+          <h1>《夜行荒庙》</h1>
+          <p>荒庙夜深，符火未熄</p>
           <button onClick={() => setScreen('battle')}>开始游戏</button>
         </section>
       ) : (

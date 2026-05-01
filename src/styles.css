@@ -5,7 +5,7 @@
 body {
   margin: 0;
   font-family: 'Microsoft YaHei', sans-serif;
-  background: #0f172a;
+  background: radial-gradient(circle at top, #1b1433, #09070f 65%);
   color: #fff;
 }
 
@@ -17,23 +17,36 @@ body {
 
 .title-page {
   text-align: center;
+  padding: 3rem;
+  border: 1px solid #5d4b85;
+  border-radius: 1rem;
+  background: rgba(24, 18, 45, 0.86);
+  box-shadow: 0 0 40px rgba(120, 87, 180, 0.35);
 }
 
 .title-page h1 {
-  margin-bottom: 1rem;
+  margin-bottom: 0.5rem;
   font-size: 3rem;
+  color: #f7d794;
+}
+
+.title-page p {
+  margin-top: 0;
+  margin-bottom: 1.8rem;
+  color: #d8d2e7;
+  font-size: 1.2rem;
 }
 
 .title-page button {
-  border: none;
-  background: #2563eb;
+  border: 1px solid #d6c0ff;
+  background: linear-gradient(180deg, #6b52a3, #4d3a75);
   color: white;
   font-size: 1.2rem;
-  padding: 0.8rem 1.4rem;
-  border-radius: 0.5rem;
+  padding: 0.85rem 1.6rem;
+  border-radius: 0.6rem;
   cursor: pointer;
 }
 
 .game-container {
-  border: 1px solid #334155;
+  border: 1px solid #47346d;
 }
