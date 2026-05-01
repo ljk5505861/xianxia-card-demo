@@ -1,0 +1,39 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: 'Microsoft YaHei', sans-serif;
+  background: #0f172a;
+  color: #fff;
+}
+
+.app-shell {
+  min-height: 100vh;
+  display: grid;
+  place-items: center;
+}
+
+.title-page {
+  text-align: center;
+}
+
+.title-page h1 {
+  margin-bottom: 1rem;
+  font-size: 3rem;
+}
+
+.title-page button {
+  border: none;
+  background: #2563eb;
+  color: white;
+  font-size: 1.2rem;
+  padding: 0.8rem 1.4rem;
+  border-radius: 0.5rem;
+  cursor: pointer;
+}
+
+.game-container {
+  border: 1px solid #334155;
+}
