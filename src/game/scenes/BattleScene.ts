@@ -10,8 +10,8 @@ type Card = {
 export class BattleScene extends Phaser.Scene {
   private playerHp = 30;
   private playerArmor = 0;
-  private enemyHp = 24;
-  private readonly enemyDamage = 7;
+  private enemyHp = 40;
+  private readonly enemyDamage = 8;
 
   private readonly cards: Card[] = [
     { name: '斩击', description: '造成6点伤害', damage: 6 },
@@ -21,6 +21,7 @@ export class BattleScene extends Phaser.Scene {
 
   private playerStatusText!: Phaser.GameObjects.Text;
   private enemyStatusText!: Phaser.GameObjects.Text;
+  private enemyIntentText!: Phaser.GameObjects.Text;
   private messageText!: Phaser.GameObjects.Text;
 
   constructor() {
@@ -28,31 +29,55 @@ export class BattleScene extends Phaser.Scene {
   }
 
   create() {
-    this.add.text(40, 20, '战斗场景', { fontSize: '28px', color: '#ffffff' });
-    this.add.text(120, 120, '玩家', { fontSize: '24px', color: '#8be9fd' });
-    this.add.text(650, 120, '敌人', { fontSize: '24px', color: '#ff6b6b' });
-
-    this.playerStatusText = this.add.text(80, 170, '', { fontSize: '22px', color: '#ffffff' });
-    this.enemyStatusText = this.add.text(620, 170, '', { fontSize: '22px', color: '#ffffff' });
-    this.messageText = this.add.text(350, 250, '', { fontSize: '28px', color: '#ffd166' });
-
+    this.resetCombatState();
+    this.drawBattleLayout();
     this.renderCards();
     this.renderEndTurnButton();
     this.updateStatus();
+    this.messageText.setText('');
+  }
+
+  private resetCombatState() {
+    this.playerHp = 30;
+    this.playerArmor = 0;
+    this.enemyHp = 40;
+  }
+
+  private drawBattleLayout() {
+    this.add.rectangle(450, 300, 900, 600, 0x0f0b1f);
+    this.add.rectangle(450, 280, 860, 520, 0x1a1232).setStrokeStyle(2, 0x5f4b8b);
+
+    this.add.text(60, 40, '荒庙夜巡', { fontSize: '30px', color: '#f7d794' });
+
+    this.add.text(120, 120, '巡夜人', { fontSize: '26px', color: '#8be9fd' });
+    this.add.text(660, 120, '庙中邪祟', { fontSize: '26px', color: '#ff9f9f' });
+
+    this.add.circle(700, 240, 70, 0x2d1f4d).setStrokeStyle(3, 0xbfa2db);
+    this.add.rectangle(700, 240, 90, 120, 0x161022).setStrokeStyle(2, 0x8e7cc3);
+
+    this.playerStatusText = this.add.text(90, 180, '', { fontSize: '22px', color: '#ffffff' });
+    this.enemyStatusText = this.add.text(610, 180, '', { fontSize: '22px', color: '#ffffff' });
+    this.enemyIntentText = this.add.text(590, 320, `敌人意图：下回合造成 ${this.enemyDamage} 点伤害`, {
+      fontSize: '20px',
+      color: '#ffd166',
+    });
+
+    this.messageText = this.add.text(370, 360, '', { fontSize: '34px', color: '#ffeaa7' });
   }
 
   private renderCards() {
     this.cards.forEach((card, index) => {
-      const x = 120 + index * 250;
-      const y = 420;
+      const x = 150 + index * 250;
+      const y = 500;
 
       const cardRect = this.add
-        .rectangle(x, y, 200, 130, 0x33415c)
-        .setStrokeStyle(2, 0xffffff)
+        .rectangle(x, y, 200, 150, 0x2a2242)
+        .setStrokeStyle(3, 0xd6c0ff)
         .setInteractive({ useHandCursor: true });
 
-      this.add.text(x - 80, y - 45, card.name, { fontSize: '24px', color: '#ffffff' });
-      this.add.text(x - 80, y - 5, card.description, { fontSize: '18px', color: '#f1f5f9' });
+      this.add.text(x - 78, y - 58, card.name, { fontSize: '24px', color: '#f8f5ff' });
+      this.add.text(x - 78, y - 20, card.description, { fontSize: '18px', color: '#d8d2e7' });
+      this.add.text(x + 40, y + 46, '费: 1', { fontSize: '16px', color: '#f7d794' });
 
       cardRect.on('pointerdown', () => this.playCard(card));
     });
@@ -60,10 +85,11 @@ export class BattleScene extends Phaser.Scene {
 
   private renderEndTurnButton() {
     const button = this.add
-      .rectangle(780, 540, 180, 48, 0x6c757d)
+      .rectangle(790, 540, 180, 52, 0x4c3b74)
+      .setStrokeStyle(2, 0xd6c0ff)
       .setInteractive({ useHandCursor: true });
 
-    this.add.text(710, 525, '结束回合', { fontSize: '24px', color: '#ffffff' });
+    this.add.text(718, 524, '结束回合', { fontSize: '24px', color: '#ffffff' });
 
     button.on('pointerdown', () => this.endTurn());
   }
@@ -73,10 +99,12 @@ export class BattleScene extends Phaser.Scene {
 
     if (card.damage) {
       this.enemyHp = Math.max(0, this.enemyHp - card.damage);
+      this.messageText.setText(`${card.name}命中，邪祟失去${card.damage}点血`);
     }
 
     if (card.armor) {
       this.playerArmor += card.armor;
+      this.messageText.setText(`护身符生效，获得${card.armor}点护甲`);
     }
 
     this.updateStatus();
@@ -90,24 +118,28 @@ export class BattleScene extends Phaser.Scene {
     this.playerArmor = Math.max(0, this.playerArmor - this.enemyDamage);
     this.playerHp = Math.max(0, this.playerHp - damageAfterArmor);
 
+    this.playerArmor = 0;
+    this.messageText.setText(`敌人出手，造成${this.enemyDamage}点伤害`);
+
     this.updateStatus();
     this.checkCombatResult();
   }
 
   private checkCombatResult() {
-    if (this.enemyHp <= 0) {
+    if (this.enemyHp === 0) {
       this.messageText.setText('战斗胜利');
-    } else if (this.playerHp <= 0) {
+    } else if (this.playerHp === 0) {
       this.messageText.setText('失败');
     }
   }
 
   private updateStatus() {
-    this.playerStatusText.setText(`玩家血量: ${this.playerHp} 护甲: ${this.playerArmor}`);
+    this.playerStatusText.setText(`玩家血量: ${this.playerHp}  护甲: ${this.playerArmor}`);
     this.enemyStatusText.setText(`敌人血量: ${this.enemyHp}`);
+    this.enemyIntentText.setText(`敌人意图：下回合造成 ${this.enemyDamage} 点伤害`);
   }
 
   private isCombatOver() {
-    return this.enemyHp <= 0 || this.playerHp <= 0;
+    return this.enemyHp === 0 || this.playerHp === 0;
   }
 }
